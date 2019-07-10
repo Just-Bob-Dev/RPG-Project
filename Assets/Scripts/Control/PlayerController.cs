@@ -11,19 +11,12 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         private void Update() {
-            if (InteractWithCombat()) 
-            {
-                return;
-            }
-            else
-            {
-                InteractWithMovement();   
-            }            
+            if (InteractWithCombat()) return;
+            if(InteractWithMovement()) return;     
         }
 
         private bool InteractWithCombat()
         {
-            bool enemy = false;
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach(RaycastHit hit in hits)
             {
@@ -37,37 +30,29 @@ namespace RPG.Control
                 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    print("else block");
-                    GetComponent<Fighter>().Attack();
+                    GetComponent<Fighter>().Attack(target);
                 }   
                 return true;
             }
-            print("enemy: " + enemy);
             return false;
         }
 
-        private void InteractWithMovement()
-        {
-            if (Input.GetMouseButton(0))
-            {
-                MoveToCursor();
-            }
-        }    
-        public void MoveToCursor()
+        private bool InteractWithMovement()
         {
             //These two varibles are used to hold the location of the ray
             // and initialize a RaycastHit varible.
-            if (Input.GetMouseButton(0))
+            RaycastHit hit;
+            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+            if (hasHit)
             {
-                RaycastHit hit;
-                bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
-                if (hasHit)
+                if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Movement.Mover>().MoveTo(hit.point);
+                    GetComponent<Mover>().MoveTo(hit.point);
                 }
+                return true;
             }
-        }
-
+            return false;
+        }    
         private static Ray GetMouseRay()
         {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
