@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
+using RPG.Combat;
 
 namespace RPG.Movement
 {
@@ -10,26 +8,39 @@ namespace RPG.Movement
 {
     [SerializeField] Transform target;
 
+    NavMeshAgent navMeshAgent;
     Ray lastRay;
+    private void Start() {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
     // The purpose of this script is too in
     // Update is called once per frame
     void Update()
     {
         UpdateAnimator();
+    }
 
+    public void StartMoveAction(Vector3 destination)
+    {
+        GetComponent<Fighter>().Cancel();
+        MoveTo(destination);
     }
 
     public void MoveTo(Vector3 destination)
     {
-        GetComponent<NavMeshAgent>().destination = destination;
+        navMeshAgent.destination = destination;
+        navMeshAgent.isStopped = false;
     }
 
-
+    public void Stop() 
+    {
+        navMeshAgent.isStopped = true;
+    }
 
     private void UpdateAnimator()
     {
         //get global velocity from nav mesh agent.
-        Vector3 velocity = GetComponent<NavMeshAgent>().velocity;
+        Vector3 velocity = navMeshAgent.velocity;
         //convert into a local value relative to character.
         Vector3 localVelocity = transform.InverseTransformDirection(velocity);
         // used when updating animator.
