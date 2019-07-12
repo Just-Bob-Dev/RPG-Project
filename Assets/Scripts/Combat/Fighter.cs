@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
+using RPG.Core;
 using UnityEngine.AI;
 
 namespace RPG.Combat
@@ -23,7 +24,6 @@ namespace RPG.Combat
             if (!GetIsInRange())
             {
                 mover.MoveTo(target.position);
-                print("A... fuck you!");
             }
             else
             {
@@ -38,7 +38,9 @@ namespace RPG.Combat
 
         public void Attack(CombatTarget combatTarget)
         {
+            GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
+            print("A... fuck you!");
         }
 
         public void Cancel()

@@ -4,9 +4,19 @@ using UnityEngine;
 
 namespace RPG.Core
 {
-        public class ActionScheduler : MonoBehaviour
+    public class ActionScheduler : MonoBehaviour
     {
-        // Start is called before the first frame update
+        MonoBehaviour currentAction;
+        public void StartAction(MonoBehaviour action)
+        {
+            if (currentAction == action) return;
+
+            if (currentAction != null)
+            {
+                print("This " + currentAction + " is being canceled");
+            }
+            currentAction = action;
+        }    
         
     }
 }
