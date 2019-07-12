@@ -7,9 +7,12 @@ using UnityEngine.AI;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
+        [SerializeField] float timeBetweenAttacks = 1f;
+
+        float timeSinceLastAttack = 0;
 
         Mover mover;
         Transform target;
@@ -18,6 +21,8 @@ namespace RPG.Combat
         }
         private void Update()
         {
+            timeSinceLastAttack += Time.deltaTime;
+            print(timeSinceLastAttack);
             //return early if target is null
             if(target == null) return;
 
@@ -27,7 +32,17 @@ namespace RPG.Combat
             }
             else
             {
-                mover.Stop();
+                mover.Cancel();
+                AttackBehavior();
+            }
+        }
+
+        private void AttackBehavior()
+        {
+            if(timeSinceLastAttack > timeBetweenAttacks)
+            {
+                GetComponent<Animator>().SetTrigger("Attack");
+                timeSinceLastAttack = 0;
             }
         }
 
@@ -46,6 +61,10 @@ namespace RPG.Combat
         public void Cancel()
         {
             target = null;
+        }
+
+        void Hit()
+        {
         }
     }
 }
