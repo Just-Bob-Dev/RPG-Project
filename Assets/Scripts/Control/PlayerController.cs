@@ -31,6 +31,7 @@ namespace RPG.Control
                 if (Input.GetMouseButtonDown(0))
                 {
                     GetComponent<Fighter>().Attack(target);
+                    target.GetComponent<Health>().TakeDamage(5f);
                 }   
                 return true;
             }
