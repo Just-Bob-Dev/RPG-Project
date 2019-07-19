@@ -324,6 +324,16 @@ PrefabInstance:
       propertyPath: healthPoints
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 1463007577914506994, guid: d12e5023858c8425483520a5524063f2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463007577914506994, guid: d12e5023858c8425483520a5524063f2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d12e5023858c8425483520a5524063f2, type: 3}
 --- !u!1001 &211292873
@@ -730,7 +740,7 @@ PrefabInstance:
     - target: {fileID: 129827553559598409, guid: d12e5023858c8425483520a5524063f2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.71
+      value: 7.4
       objectReference: {fileID: 0}
     - target: {fileID: 129827553559598409, guid: d12e5023858c8425483520a5524063f2,
         type: 3}
@@ -740,7 +750,7 @@ PrefabInstance:
     - target: {fileID: 129827553559598409, guid: d12e5023858c8425483520a5524063f2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.03
+      value: -0.66
       objectReference: {fileID: 0}
     - target: {fileID: 129827553559598409, guid: d12e5023858c8425483520a5524063f2,
         type: 3}

@@ -26,10 +26,14 @@ namespace RPG.Control
                 //     player.Fight();
                 // }
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if  (target == null) continue;
-                
+                if(!GetComponent<Fighter>().CanAttack(target)) 
+                {
+                    continue;
+                }
+
                 if (Input.GetMouseButtonDown(0))
                 {
+                    print("in here");
                     GetComponent<Fighter>().Attack(target);
                     target.GetComponent<Health>().TakeDamage(5f);
                 }   

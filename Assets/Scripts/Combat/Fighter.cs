@@ -16,7 +16,7 @@ namespace RPG.Combat
         float timeSinceLastAttack = 0;
 
         Mover mover;
-        Transform target;
+        Health target;
         Animator animator;
         private void Start() {
             mover = GetComponent<Mover>();
@@ -27,10 +27,11 @@ namespace RPG.Combat
             timeSinceLastAttack += Time.deltaTime;
             //return early if target is null
             if(target == null) return;
+            if(target.IsDead()) return;
 
             if (!GetIsInRange())
             {
-                mover.MoveTo(target.position);
+                mover.MoveTo(target.transform.position);
             }
             else
             {
@@ -39,8 +40,17 @@ namespace RPG.Combat
             }
         }
 
+        public bool CanAttack(CombatTarget combatTarget)
+        {
+            if(combatTarget == null) { return false; }
+
+            Health targetToAttack = combatTarget.GetComponent<Health>();
+            return targetToAttack != null && !targetToAttack.IsDead();
+        }
+
         private void AttackBehavior()
         {
+            transform.LookAt(target.transform);
             if(timeSinceLastAttack > timeBetweenAttacks)
             {
                 //this will trigger the hit event.
@@ -51,19 +61,18 @@ namespace RPG.Combat
 
         void Hit()
         {
-            Health healthComponent = target.GetComponent<Health>();
-            healthComponent.TakeDamage(weaponDamage);
+            target.TakeDamage(weaponDamage);
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
         }
 
         public void Attack(CombatTarget combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.transform;           
+            target = combatTarget.GetComponent<Health>();           
         }
 
         public void Cancel()
