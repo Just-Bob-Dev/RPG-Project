@@ -10,8 +10,10 @@ namespace RPG.Movement
 
         NavMeshAgent navMeshAgent;
         Ray lastRay;
+        Animator animator;
         private void Start() {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
         }
         // The purpose of this script is too in
         // Update is called once per frame
@@ -28,6 +30,10 @@ namespace RPG.Movement
 
         public void MoveTo(Vector3 destination)
         {
+            if(animator.GetBool("Attack"))
+            {
+                animator.SetTrigger("stopAttack");
+            }
             navMeshAgent.destination = destination;
             navMeshAgent.isStopped = false;
         }
@@ -45,7 +51,7 @@ namespace RPG.Movement
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             // used when updating animator.
             float speed = localVelocity.z;
-            GetComponent<Animator>().SetFloat("forwardSpeed", speed);
+            animator.SetFloat("forwardSpeed", speed);
         }
     }
 }
